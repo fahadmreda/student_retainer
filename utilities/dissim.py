@@ -1,9 +1,6 @@
-"""
-Dissimilarity measures for clustering
-"""
-
-# Author: 'Nico de Vos' <njdevos@gmail.com>
-# License: MIT
+# Some dissimilarity measures for clustering
+# Tim Burt
+# CS5593 project
 
 import numpy as np
 
