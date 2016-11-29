@@ -1,15 +1,12 @@
-"""
-Generic utilities for clustering
-"""
-
-# Author: 'Nico de Vos' <njdevos@gmail.com>
-# License: MIT
+# Generic utilities for clustering
+# Tim Burt
+# CS5593 project
 
 import numpy as np
 
 
 def get_max_value_key(dic):
-    """Fast method to get key for maximum value in dict."""
+    """Quick method to get key for maximum value in dict."""
     v = list(dic.values())
     k = list(dic.keys())
     return k[v.index(max(v))]
