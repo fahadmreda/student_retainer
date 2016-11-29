@@ -17,17 +17,14 @@ students based on course choices along with retention information.
 
 This program resulted from a class project in CS 5593 Data Mining from Fall 2016 at the University of Oklahoma.
 
-Program 
 Installation
 ------------
-
 
 Usage
 -----
 
 Missing Data
 ------------
-
 
 References
 ----------
