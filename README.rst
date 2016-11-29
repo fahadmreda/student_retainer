@@ -11,9 +11,10 @@ Description
 
 Python/R-based program with GUI that uses data mining techniques (clustering/classification) to predict success/failure trends of
 students based on course choices along with retention information.
--Identify common course taking patterns for first-time, full-time freshmen.
--Predict student retention based on the identified course clusters and pre-existing risk factors.
--Tools that can be used by academic advisors to better aid in enrollment decisions.
+Goals:
+*   Identify common course taking patterns for first-time, full-time freshmen.
+*   Predict student retention based on the identified course clusters and pre-existing risk factors.
+*   Tools that can be used by academic advisors to better aid in enrollment decisions.
 
 This program resulted from a class project in CS 5593 Data Mining from Fall 2016 at the University of Oklahoma.
 
