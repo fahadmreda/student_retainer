@@ -13,19 +13,19 @@ from utilities import get_max_value_key, encode_features, get_unique_rows, decod
 from utilities.dissim import matching_dissim
 
 
-def initialize_huang(X, num_clusters, dissim):
+def initialize_huang(X, n_clusters, dissim):
     """Initialize the centroids based on method by Huang [1997]"""
     nattrs = X.shape[1]
-    centroids = np.empty((num_clusters, nattrs), dtype='object')
+    centroids = np.empty((n_clusters, nattrs), dtype='object')
     # determine frequencies of attributes
     for iattr in range(nattrs):
         freq = defaultdict(int)
         for curattr in X[:, iattr]:
             freq[curattr] += 1
         choices = [chc for chc, wght in freq.items() for _ in range(wght)]
-        centroids[:, iattr] = np.random.choice(choices, num_clusters)
+        centroids[:, iattr] = np.random.choice(choices, n_clusters)
     # Above chosen centroids could have empty clusters, so set centroid to the closest point in X
-    for ik in range(num_clusters):
+    for ik in range(n_clusters):
         ndx = np.argsort(dissim(X, centroids[ik]))
         while np.all(X[ndx[0]] == centroids, axis=1).any():  # ensure centroid is UNIQUE
             ndx = np.delete(ndx, 0)
@@ -33,10 +33,10 @@ def initialize_huang(X, num_clusters, dissim):
     return centroids
 
 
-def initialize_cao(X, num_clusters, dissim):
+def initialize_cao(X, n_clusters, dissim):
     """Initialize the centroids according to method by Cao et al. [2009]"""
     npoints, nattrs = X.shape
-    centroids = np.empty((num_clusters, nattrs), dtype='object')
+    centroids = np.empty((n_clusters, nattrs), dtype='object')
     # This method based on finding density of points
     dens = np.zeros(npoints)
     for iattr in range(nattrs):
@@ -48,10 +48,10 @@ def initialize_cao(X, num_clusters, dissim):
     dens /= npoints
     # Choose the initial centroids based on the distance and density
     centroids[0] = X[np.argmax(dens)]
-    if num_clusters > 1:
+    if n_clusters > 1:
         # For all remaining centroids, choose maximum dens * dissim to the already assigned centroid 
         # with the lowest dens * dissim
-        for ik in range(1, num_clusters):
+        for ik in range(1, n_clusters):
             dd = np.empty((ik, npoints))
             for ikk in range(ik):
                 dd[ikk] = dissim(X, centroids[ikk]) * dens
@@ -127,7 +127,7 @@ def _k_modes_one_iter(X, centroids, cl_attr_freq, membership, dissim):
     return centroids, moves
 
 
-def k_modes(X, num_clusters, max_iterations, dissim, init, n_init, verbose):
+def k_modes(X, n_clusters, max_iterations, dissim, init, n_init, verbose):
     """The k-modes algorithm"""
     if sparse.issparse(X):
         raise TypeError("k-modes doesn't support sparse data.")
@@ -138,15 +138,15 @@ def k_modes(X, num_clusters, max_iterations, dissim, init, n_init, verbose):
     # Based on unique values in X, a mapping can be made to achieve this.
     X, enc_map = encode_features(X)
     npoints, nattrs = X.shape
-    assert num_clusters <= npoints, "Do we have more clusters than data points?. Check please."
+    assert n_clusters <= npoints, "Do we have more clusters than data points?. Check please."
 
-    # Does there exist more num_clusters than unique rows? Then set unique rows as initial values and skip iteration
+    # Does there exist more n_clusters than unique rows? Then set unique rows as initial values and skip iteration
     unique = get_unique_rows(X)
     n_unique = unique.shape[0]
-    if n_unique <= num_clusters:
+    if n_unique <= n_clusters:
         max_iterations = 0
         n_init = 1
-        num_clusters = n_unique
+        n_clusters = n_unique
         init = unique
     all_centroids = []
     all_labels = []
@@ -157,19 +157,19 @@ def k_modes(X, num_clusters, max_iterations, dissim, init, n_init, verbose):
         if verbose:
             print("Init: initializing the centroids")
         if isinstance(init, str) and init == 'Huang':
-            centroids = initialize_huang(X, num_clusters, dissim)
+            centroids = initialize_huang(X, n_clusters, dissim)
         elif isinstance(init, str) and init == 'Cao':
-            centroids = initialize_cao(X, num_clusters, dissim)
+            centroids = initialize_cao(X, n_clusters, dissim)
         elif isinstance(init, str) and init == 'random':
-            seeds = np.random.choice(range(npoints), num_clusters)
+            seeds = np.random.choice(range(npoints), n_clusters)
             centroids = X[seeds]
         elif hasattr(init, '__array__'):
             # Make sure 'initialize' is a 2D array.
             if len(init.shape) == 1:
                 init = np.atleast_2d(init).T
-            assert init.shape[0] == num_clusters, \
+            assert init.shape[0] == n_clusters, \
                 "We have the wrong number of initial centroids in init ({}, should be {})."\
-                .format(init.shape[0], num_clusters)
+                .format(init.shape[0], n_clusters)
             assert init.shape[1] == nattrs, \
                 "We have the wrong number of attributes in init ({}, should be {})."\
                 .format(init.shape[1], nattrs)
@@ -178,11 +178,11 @@ def k_modes(X, num_clusters, max_iterations, dissim, init, n_init, verbose):
             raise NotImplementedError
         if verbose:
             print("Initialize: initializing clusters")
-        membership = np.zeros((num_clusters, npoints), dtype=np.uint8)
+        membership = np.zeros((n_clusters, npoints), dtype=np.uint8)
         # cl_attr_freq is a list of lists of dictionaries that contain the frequencies of values
         # per cluster and attribute.
         cl_attr_freq = [[defaultdict(int) for _ in range(nattrs)]
-                        for _ in range(num_clusters)]
+                        for _ in range(n_clusters)]
         for ipoint, curpoint in enumerate(X):
             # The initial assignment to clusters
             clust = np.argmin(dissim(centroids, curpoint))
@@ -191,7 +191,7 @@ def k_modes(X, num_clusters, max_iterations, dissim, init, n_init, verbose):
             for iattr, curattr in enumerate(curpoint):
                 cl_attr_freq[clust][iattr][curattr] += 1
         # Perform initial centroid update
-        for ik in range(num_clusters):
+        for ik in range(n_clusters):
             for iattr in range(nattrs):
                 if sum(membership[ik]) == 0:
                     # Empty centroid, choose it randomly
@@ -233,22 +233,22 @@ class KModes(BaseEstimator, ClusterMixin):
     """k-modes clustering algorithm for categorical data.
     Parameters
     -----------
-    num_clusters : int, optional, default: 8
+    n_clusters : int, optional, default: 8
         The number of clusters to form as well as the number of
         centroids to generate.
     max_iterations : int, default: 300
         Maximum number of iterations of the k-modes algorithm for a
         single run.
-    cate_dissim : func, default: matching_dissim
+    cat_dissim : func, default: matching_dissim
         Dissimilarity function used by the algorithm for categorical variables.
         Defaults to the matching dissimilarity function.
     init : {'Huang', 'Cao', 'random' or an ndarray}, default: 'Cao'
         Method for initialization:
         'Huang': Method in Huang [1997, 1998]
         'Cao': Method in Cao et al. [2009]
-        'random': choose 'num_clusters' observations (rows) at random from
+        'random': choose 'n_clusters' observations (rows) at random from
         data for the initial centroids.
-        If an ndarray is passed, it should be of shape (num_clusters, n_features)
+        If an ndarray is passed, it should be of shape (n_clusters, n_features)
         and gives the initial centroids.
     n_init : int, default: 10
         Number of time the k-modes algorithm will be run with different
@@ -259,7 +259,7 @@ class KModes(BaseEstimator, ClusterMixin):
         
     Attributes
     ----------
-    cluster_centroids_ : array, [num_clusters, n_features]
+    cluster_centroids_ : array, [n_clusters, n_features]
         Categories of cluster centroids
     labels_ :
         Labels of each point
@@ -277,12 +277,12 @@ class KModes(BaseEstimator, ClusterMixin):
     Discovery 2(3), 1998.
     """
 
-    def __init__(self, num_clusters=8, max_iterations=100, cate_dissim=matching_dissim,
+    def __init__(self, n_clusters=8, max_iterations=100, cat_dissim=matching_dissim,
                  init='Cao', n_init=1, verbose=0):
 
-        self.num_clusters = num_clusters
+        self.n_clusters = n_clusters
         self.max_iterations = max_iterations
-        self.cate_dissim = cate_dissim
+        self.cat_dissim = cat_dissim
         self.init = init
         self.n_init = n_init
         self.verbose = verbose
@@ -301,9 +301,9 @@ class KModes(BaseEstimator, ClusterMixin):
         """
         self._enc_cluster_centroids, self._enc_map, self.labels_,\
             self.cost_, self.n_iter_ = k_modes(X,
-                                               self.num_clusters,
+                                               self.n_clusters,
                                                self.max_iterations,
-                                               self.cate_dissim,
+                                               self.cat_dissim,
                                                self.init,
                                                self.n_init,
                                                self.verbose)
@@ -330,7 +330,7 @@ class KModes(BaseEstimator, ClusterMixin):
         assert hasattr(self, '_enc_cluster_centroids'), "Model hasn't been fitted yet."
         X = check_array(X, dtype=None)
         X, _ = encode_features(X, enc_map=self._enc_map)
-        return _labels_and_cost(X, self._enc_cluster_centroids, self.cate_dissim)[0]
+        return _labels_and_cost(X, self._enc_cluster_centroids, self.cat_dissim)[0]
 
     @property
     def cluster_centroids_(self):

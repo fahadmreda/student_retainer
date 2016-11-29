@@ -10,7 +10,7 @@ import numpy as np
 import kmodes
 
 # options
-max_clusters = 20
+max_clusters = 30
 save_dir = 'examples'
 # initialize variables
 classes_dict = {}
@@ -68,7 +68,8 @@ for i in num_cluster_list:
     labels.append(labels_temp)
 plt.plot(num_cluster_list, cost)
 plt.xlabel('Number of clusters')
-plt.ylabel('Cost')
+plt.ylabel('SSE')
+plt.title('Knee plot from k-modes clustering')
 plt.savefig('knee_plot.pdf')
 plt.show()
 # print centroids for k choice and export
