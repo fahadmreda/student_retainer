@@ -19,7 +19,7 @@ def decode_centroids(encoded, mapping):
 def encode_features(X, enc_map=None):
     """Converts the categorical values from every column of X to integers within the range
     [0, n_unique_values_in_column - 1], if X isn't dtype=int.
-    
+
     If mapping is not provided, it is calculated based on the values in X.
     Any unknown values during the prediction get a value of -1 including np.NaNs.
     """

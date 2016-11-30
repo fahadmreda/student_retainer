@@ -47,7 +47,7 @@ with open(filename, 'rb') as data:
             else:  # already in there
                 classes_arr[line_counter][i] = classes_dict[cur_class]
         line_counter += 1
-print 'I found %d duplicate classes in one record' % dup_class_counter
+print 'I found %d records with a duplicate class, setting to . class' % dup_class_counter
 inv_classes_dict = {v: k for k, v in classes_dict.iteritems()}  # inversion of dictionary, for index lookup
 #print classes_dict
 #print classes_arr
@@ -77,6 +77,7 @@ actual_k = raw_input("Enter your k choice from the knee plot: ")
 actual_k = int(actual_k)
 print "Centroids for choice k=%d, exporting to centroids.txt:" % actual_k
 actual_centroids = centroids[actual_k - 1]
+actual_labels = labels[actual_k - 1]
 # convert indices back to actual classes
 centroid_classes = []
 for i in range(len(actual_centroids)):
@@ -92,8 +93,9 @@ with open("centroids.txt", 'w') as data:
         line = str(centroid_classes[i])
         data.write(line)
         data.write('\n')
-
-
+with open('labels.csv', 'wb') as data:
+    alllines = csv.writer(data, delimiter='\n', dialect='excel')
+    alllines.writerow(actual_labels)
 
 
 
