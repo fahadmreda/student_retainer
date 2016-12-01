@@ -89,7 +89,7 @@ def create_tutorial_pages(tut):
             'Check boxes do not need to be checked. Only check the boxes which are appropriate. \n'
             'Click "Submit and Classify"'
             'If you decide to start over, click "Clear" and all fields will be reset')
-    Label(p3, text=msg).grid(row=0,column=1)
+    Message(p3, text=msg).grid(row=0,column=1)
 
     bck_ground_image = ImageTk.PhotoImage(file='input_tut.png')
     bck_ground_label = Label(p3, image=bck_ground_image)
