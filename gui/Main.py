@@ -71,7 +71,7 @@ def create_tutorial_pages(tut):
             'If not is the answer, perhaps they could be encouraged to seek other courses, another major, or perhaps \n'
             'more aid in order to succeed.')
 
-    Label(p1, text=msg).pack()
+    Message(p1, text=msg).pack()
 
     #####
     ##### Page 2
