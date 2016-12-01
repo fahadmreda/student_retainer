@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf0ae8cd-e576-4be7-8f80-ead830fc1b12" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/Main.py" afterPath="$PROJECT_DIR$/gui/Main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="student_retainer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,14 +26,45 @@
       <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2780118">
-              <caret line="77" column="122" selection-start-line="77" selection-start-column="122" selection-end-line="77" selection-end-column="122" />
+            <state vertical-scroll-proportion="0.126369">
+              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+              <folding>
+                <element signature="e#67#88#0" expanded="true" />
+                <element signature="e#399#403#0" expanded="false" />
+                <element signature="e#426#507#0" expanded="false" />
+                <element signature="e#539#646#0" expanded="false" />
+                <element signature="e#686#820#0" expanded="false" />
+                <element signature="e#868#1254#0" expanded="false" />
+                <element signature="e#1292#4066#0" expanded="false" />
+                <element signature="e#4091#4124#0" expanded="false" />
+                <element signature="e#4149#4182#0" expanded="false" />
+                <element signature="e#4226#4770#0" expanded="false" />
+                <element signature="e#4801#5414#0" expanded="false" />
+                <element signature="e#5442#16959#0" expanded="false" />
+                <element signature="e#16986#17907#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Clusters_value.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/Clusters_value.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,6 +77,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/gui/Point.py" />
+        <option value="$PROJECT_DIR$/gui/Cluster_value.py" />
+        <option value="$PROJECT_DIR$/gui/Clusters_value.py" />
+        <option value="$PROJECT_DIR$/gui/Pointer_List.py" />
         <option value="$PROJECT_DIR$/gui/Main.py" />
       </list>
     </option>
@@ -262,14 +297,20 @@
       <option name="project" value="LOCAL" />
       <updated>1480564622471</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added cluster value in point&#10;&#10;Added Clusters_value file which sets a cluster value for a specific point given a set of cluster values">
+      <created>1480569976049</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1480569976049</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1182" y="22" width="1249" height="1307" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12492073" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16368078" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -294,7 +335,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test 3!" />
-    <option name="LAST_COMMIT_MESSAGE" value="test 3!" />
+    <MESSAGE value="Added cluster value in point&#10;&#10;Added Clusters_value file which sets a cluster value for a specific point given a set of cluster values" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added cluster value in point&#10;&#10;Added Clusters_value file which sets a cluster value for a specific point given a set of cluster values" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -303,17 +345,47 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/gui/Point.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14285715">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/Pointer_List.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0379107">
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/Clusters_value.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2780118">
-          <caret line="77" column="122" selection-start-line="77" selection-start-column="122" selection-end-line="77" selection-end-column="122" />
-          <folding />
+        <state vertical-scroll-proportion="0.126369">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+          <folding>
+            <element signature="e#67#88#0" expanded="true" />
+            <element signature="e#399#403#0" expanded="false" />
+            <element signature="e#426#507#0" expanded="false" />
+            <element signature="e#539#646#0" expanded="false" />
+            <element signature="e#686#820#0" expanded="false" />
+            <element signature="e#868#1254#0" expanded="false" />
+            <element signature="e#1292#4066#0" expanded="false" />
+            <element signature="e#4091#4124#0" expanded="false" />
+            <element signature="e#4149#4182#0" expanded="false" />
+            <element signature="e#4226#4770#0" expanded="false" />
+            <element signature="e#4801#5414#0" expanded="false" />
+            <element signature="e#5442#16959#0" expanded="false" />
+            <element signature="e#16986#17907#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

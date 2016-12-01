@@ -9,6 +9,7 @@ class Point:
         self.act_sat_conv =         entries['act_sat_conv_entry']
         self.ap_hours =             entries['ap_hours_entry']
         self.credits_attempted =    entries['credits_attempted_entry']
+
         self.ret_gpa =              entries['ret_gpa_entry']
         self.hs_gpa =               entries['hs_gpa_entry']
         self.trig =                 entries['trig_entry']
@@ -23,7 +24,6 @@ class Point:
         self.ae =                   entries['ae_entry']
         self.ic =                   entries['ic_entry']
         self.grit =                 entries['grit_entry']
-        self.here =                 entries['here_entry']
         self.cohort_ou_term =       entries['cohort_ou_term_entry']
 
         self.t_course_1 =           entries['t_course_1_entry']
@@ -50,3 +50,6 @@ class Point:
         self.o_course_5 =           checks['o_course_5'].get()
         self.o_course_6 =           checks['o_course_6'].get()
         self.o_course_7 =           checks['o_course_7'].get()
+
+        self.cluster_name = None
+        self.courses = [self.t_course_1,self.t_course_2,self.t_course_3,self.t_course_4,self.t_course_5,self.t_course_6, self.t_course_7]

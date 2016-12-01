@@ -9,10 +9,13 @@ from PIL import Image,ImageTk
 # Homemade files
 import Point
 import Pointer_List
+import Clusters_value
 
 ###################
 # Globals
 ###################
+stub = 0
+cluster_values = Clusters_value.Cluster_value(stub)
 
 ###################
 # Functions
@@ -42,8 +45,15 @@ def clear_entry(entries, checks):
 def submit_entry(entry, entries, checks):
     # TODO - Error checking
     if check_entry(entries):
+        # Create the new point
         new_point = Point.Point(entries, checks)
+
+        # Find the cluster value that corresponds to this point
+        new_point.cluster_name = cluster_values.find_closest(new_point)
+
+        # Destroy window
         entry.destroy()
+
     else:
         tkMessageBox.showerror(message="Invalid Entry")
 
@@ -100,7 +110,7 @@ def create_tutorial_pages(tut):
     ##### Page 4
     msg = ('Notice: If you fill out an entry with an invalid type an error message will occur. \n'
            'Simply click "ok" and continue filling out the form.')
-    Label(p4, text=msg).grid(row=0,column=1)
+    Message(p4, text=msg).grid(row=0,column=1)
 
     bck_ground_image = ImageTk.PhotoImage(file='incorrect_tut.png')
     bck_ground_label = Label(p4, image=bck_ground_image)
@@ -185,7 +195,6 @@ def run_entry_view():
     ae_lbl =                    Label(entry, text="AE").grid(row=0, column=2)
     ic_lbl =                    Label(entry, text="IC").grid(row=1, column=2)
     grit_lbl =                  Label(entry, text="GRIT").grid(row=2, column=2)
-    here_lbl =                  Label(entry, text="Here").grid(row=3, column=2)
     cohort_ou_term_lbl =        Label(entry, text="Cohort OU Term").grid(row=4, column=2)
     t_course_1_lbl =            Label(entry, text="Title: Course 1").grid(row=5, column=2)
     t_course_2_lbl =            Label(entry, text="Title: Course 2").grid(row=6, column=2)
@@ -226,7 +235,6 @@ def run_entry_view():
     ae_entry =                  Entry(entry, bd=5)
     ic_entry =                  Entry(entry, bd=5)
     grit_entry =                Entry(entry, bd=5)
-    here_entry =                Entry(entry, bd=5)
     cohort_ou_term_entry =      Entry(entry, bd=5)
     t_course_1_entry =          Entry(entry, bd=5)
     t_course_2_entry =          Entry(entry, bd=5)
@@ -285,7 +293,6 @@ def run_entry_view():
     ae_entry.grid(row=0, column=3)
     ic_entry.grid(row=1, column=3)
     grit_entry.grid(row=2, column=3)
-    here_entry.grid(row=3, column=3)
     cohort_ou_term_entry.grid(row=4, column=3)
     t_course_1_entry.grid(row=5, column=3)
     t_course_2_entry.grid(row=6, column=3)
@@ -333,7 +340,6 @@ def run_entry_view():
     entries['ae_entry']                 = ae_entry
     entries['ic_entry']                 = ic_entry
     entries['grit_entry']               = grit_entry
-    entries['here_entry']               = here_entry
     entries['cohort_ou_term_entry']     = cohort_ou_term_entry
     entries['t_course_1_entry']         = t_course_1_entry
     entries['t_course_2_entry']         = t_course_2_entry
