@@ -1,4 +1,3 @@
-import Tkinter as tk
 
 class pointer_list:
     def __init__(self):
