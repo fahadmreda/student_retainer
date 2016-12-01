@@ -17,14 +17,16 @@ classes_dict = {}
 class_counter = 0
 line_counter = 0
 dup_class_counter = 0
-filename = 'cleaned_data.csv'
+data_filename = 'cleaned_data.csv'
+clean_data_filename = 'cleaned_data_nodups.csv'  # written WITHOUT any duplicate records in a class
 #
 classes_dict['.'] = 0  # force that as unknown class
 os.chdir(save_dir)
-file = open(filename)
+file = open(data_filename)
 row_count = len(file.readlines())
 colm_count = 7
-with open(filename, 'rb') as data:
+data_sto = []
+with open(data_filename, 'rb') as data:
     alllines = csv.reader(data, dialect='excel')
     classes_arr = np.zeros((row_count, colm_count))  # initialize array for feeding to k-modes
     for line in alllines:
@@ -47,7 +49,14 @@ with open(filename, 'rb') as data:
             else:  # already in there
                 classes_arr[line_counter][i] = classes_dict[cur_class]
         line_counter += 1
+        data_sto.append(line)
+####################
 print 'I found %d records with a duplicate class, setting to . class' % dup_class_counter
+# Now it is clean, write to new file     
+with open(clean_data_filename, 'wb') as data:
+    alllines = csv.writer(data, dialect='excel')
+    for line in data_sto:
+        alllines.writerow(line)
 inv_classes_dict = {v: k for k, v in classes_dict.iteritems()}  # inversion of dictionary, for index lookup
 #print classes_dict
 #print classes_arr
