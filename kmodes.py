@@ -91,8 +91,8 @@ def _labels_and_cost(X, centroids, dissim):
     npoints = X.shape[0]
     cost = 0.
     labels = np.empty(npoints, dtype=np.uint8)
-    for ipoint, curpoint in enumerate(X):
-        diss = dissim(centroids, curpoint)
+    for ipoint, curpoint in enumerate(X):  # ipoint - index of pt
+        diss = dissim(centroids, curpoint)  # distance
         clust = np.argmin(diss)
         labels[ipoint] = clust
         cost += diss[clust]
@@ -228,6 +228,27 @@ def k_modes(X, n_clusters, max_iterations, dissim, init, n_init, verbose):
         all_costs[best], all_n_iters[best]
 
 
+def calc_eval_metrics(X, centroids, labels, dissim):
+    """Calculates Calinski-Harabasz index (VRC), Dunn index, Silhouette Width Criterion"""
+    ssw = 0.0
+    vrc = None
+    npoints, nattrs = X.shape
+    N = npoints
+    k = len(centroids)
+    c = np.mean(centroids, axis=0)  # average of all clusters point
+    for ipoint, curpoint in enumerate(X):
+        pt_cluster = labels[ipoint]
+        pt_centroid = centroids[pt_cluster]
+        diss = dissim(centroids, curpoint)  # distance from all centroids to point
+        ssw += diss[pt_cluster]**2
+    #for i in range(len(centroids)):
+    diss = dissim(centroids, c)
+    ssb = np.sum(diss)
+    if k > 0:
+        vrc = (ssb/ssw) * (N-k)/(k-1.0)
+    print vrc
+
+
 class KModes(BaseEstimator, ClusterMixin):
 
     """k-modes clustering algorithm for categorical data.
@@ -307,6 +328,9 @@ class KModes(BaseEstimator, ClusterMixin):
                                                self.init,
                                                self.n_init,
                                                self.verbose)
+        calc_eval_metrics(X, self._enc_cluster_centroids, self.labels_, self.cat_dissim)
+
+
         return self
 
     def fit_predict(self, X, y=None, **kwargs):

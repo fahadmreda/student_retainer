@@ -10,7 +10,7 @@ import numpy as np
 import kmodes
 
 # options
-max_clusters = 30
+max_clusters = 11
 save_dir = 'examples'
 # initialize variables
 classes_dict = {}
