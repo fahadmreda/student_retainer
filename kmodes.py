@@ -246,7 +246,7 @@ def calc_eval_metrics(X, centroids, labels, dissim):
     ssb = np.sum(diss)
     if k > 0:
         vrc = (ssb/ssw) * (N-k)/(k-1.0)
-    print vrc
+    print "VRC: %.4f" % vrc
 
 
 class KModes(BaseEstimator, ClusterMixin):
