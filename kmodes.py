@@ -5,6 +5,7 @@
 from collections import defaultdict
 from sklearn.base import BaseEstimator, ClusterMixin
 from sklearn.utils.validation import check_array
+import sklearn.metrics
 
 import numpy as np
 from scipy import sparse
@@ -229,24 +230,55 @@ def k_modes(X, n_clusters, max_iterations, dissim, init, n_init, verbose):
 
 
 def calc_eval_metrics(X, centroids, labels, dissim):
-    """Calculates Calinski-Harabasz index (VRC), Dunn index, Silhouette Width Criterion"""
+    """Calculates SSE, Calinski-Harabasz index (VRC), Dunn index, Silhouette Width Criterion"""
+    # VRC/SSE
     ssw = 0.0
-    vrc = None
     npoints, nattrs = X.shape
     N = npoints
     k = len(centroids)
     c = np.mean(centroids, axis=0)  # average of all clusters point
+    split_X = [[] for x in range(k)]  # split X by clusters
     for ipoint, curpoint in enumerate(X):
         pt_cluster = labels[ipoint]
         pt_centroid = centroids[pt_cluster]
+        split_X[pt_cluster].append(curpoint)  # store parsed X here
         diss = dissim(centroids, curpoint)  # distance from all centroids to point
         ssw += diss[pt_cluster]**2
-    #for i in range(len(centroids)):
+    sse = ssw
     diss = dissim(centroids, c)
     ssb = np.sum(diss)
     if k > 0:
         vrc = (ssb/ssw) * (N-k)/(k-1.0)
+    else:
+        vrc = None
     print "VRC: %.4f" % vrc
+    # Dunn index
+    # get distances between all centroids
+    centroid_dist = []
+    #for i in range(len(centroids)):
+    #    for j in range(len(centroids)):
+    #        print centroids[i]
+    #        temp = dissim(centroids[i], centroids[j])
+    #        centroid_dist.append(temp)
+    #dunn_numerator = np.min(centroid_dist)
+    # calculate 3 different deltas for dunn index
+    # https://en.wikipedia.org/wiki/Dunn_index
+    int_cluster_dist = [[] for x in range(k)]
+    delta_a = []
+    # for i in range(len(split_X)):
+    #     for j in range(len(split_X[i])):
+    #         for k in range(len(split_X[i])):
+    #             if j > k:
+    #                 temp = dissim(split_X[i][j], split_X[i][k])
+    #                 int_cluster_dist[i].append(temp)
+    #     delta_a.append(np.max(int_cluster_dist[i]))
+    # build distance matrix [n_samples_a, n_samples_a]
+    # dist_matrix = np.zeros((npoints, npoints))
+    # for i in range(len(X)):
+    #     for j in range(len(X)):
+    #         dist_matrix[i,j] = dissim(X[i], X[j])
+    # scores = sklearn.metrics.silhouette_score(dist_matrix, metric='precomputed')
+    return vrc, sse
 
 
 class KModes(BaseEstimator, ClusterMixin):
@@ -307,6 +339,8 @@ class KModes(BaseEstimator, ClusterMixin):
         self.init = init
         self.n_init = n_init
         self.verbose = verbose
+        self.vrc_ = None
+        self.sse_ = None
         if ((isinstance(self.init, str) and self.init == 'Cao') or
                 hasattr(self.init, '__array__')) and self.n_init > 1:
             if self.verbose:
@@ -328,7 +362,7 @@ class KModes(BaseEstimator, ClusterMixin):
                                                self.init,
                                                self.n_init,
                                                self.verbose)
-        calc_eval_metrics(X, self._enc_cluster_centroids, self.labels_, self.cat_dissim)
+        self.vrc_, self.sse_ = calc_eval_metrics(X, self._enc_cluster_centroids, self.labels_, self.cat_dissim)
 
 
         return self

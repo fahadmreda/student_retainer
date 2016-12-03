@@ -10,7 +10,7 @@ import numpy as np
 import kmodes
 
 # options
-max_clusters = 11
+max_clusters = 30
 save_dir = 'examples'
 # initialize variables
 classes_dict = {}
@@ -57,6 +57,11 @@ with open(clean_data_filename, 'wb') as data:
     alllines = csv.writer(data, dialect='excel')
     for line in data_sto:
         alllines.writerow(line)
+np.savetxt("cleaned_data_nums.txt",classes_arr,fmt='%d')
+with open('data_dict.csv', 'wb') as csv_file:
+    writer = csv.writer(csv_file)
+    for key, value in classes_dict.items():
+        writer.writerow([key, value])
 inv_classes_dict = {v: k for k, v in classes_dict.iteritems()}  # inversion of dictionary, for index lookup
 #print classes_dict
 #print classes_arr
@@ -65,6 +70,8 @@ num_cluster_list = range(1, max_clusters + 1)
 cost = []
 centroids = []
 labels = []
+sse = []
+vrc = []
 for i in num_cluster_list:
     print "On cluster %d out of %d" % (i, max_clusters)
     km = kmodes.KModes(n_clusters=i, init='Cao', n_init=25, verbose=0)
@@ -72,15 +79,36 @@ for i in num_cluster_list:
     centroids_temp = km.cluster_centroids_
     cost_temp = km.cost_
     labels_temp = km.labels_
+    sse_temp = km.sse_
+    vrc_temp = km.vrc_
     cost.append(cost_temp)
     centroids.append(centroids_temp)
     labels.append(labels_temp)
+    sse.append(sse_temp)
+    vrc.append(vrc_temp)
+#
 plt.plot(num_cluster_list, cost)
 plt.xlabel('Number of clusters')
-plt.ylabel('SSE')
-plt.title('Knee plot from k-modes clustering')
-plt.savefig('knee_plot.pdf')
+plt.ylabel('Cost')
+plt.title('Cost analysis from Python-based k-modes clustering')
+plt.savefig('cost_plot.pdf')
 plt.show()
+plt.close()
+#
+plt.plot(num_cluster_list, sse)
+plt.xlabel('Number of clusters')
+plt.ylabel('Sum of squared error (SSE)')
+plt.title('SSE analysis from Python-based k-modes clustering')
+plt.savefig('sse_plot.pdf')
+plt.close()
+#
+plt.plot(num_cluster_list, vrc)
+plt.xlabel('Number of clusters')
+plt.ylabel('Normalized Calinski-Harabasz Index (VRC)')
+plt.title('VRC analysis from Python-based k-modes clustering')
+plt.savefig('vrc_plot.pdf')
+plt.close()
+#
 # print centroids for k choice and export
 actual_k = raw_input("Enter your k choice from the knee plot: ")
 actual_k = int(actual_k)

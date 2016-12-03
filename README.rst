@@ -18,6 +18,8 @@ Goals:
 
 This program resulted from a class project in CS 5593 Data Mining from Fall 2016 at the University of Oklahoma.
 
+Demonstration video: https://youtu.be/0EEFfizu4D0
+
 Installation
 ------------
 

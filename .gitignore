@@ -95,3 +95,9 @@ kmodes.pyc
 utilities/__init__.pyc
 utilities/dissim.pyc
 .DS_Store
+
+examples/*.csv
+examples/cost_plot.pdf
+examples/data_dict.csv
+examples/sse_plot.pdf
+examples/vrc_plot.pdf
