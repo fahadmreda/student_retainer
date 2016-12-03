@@ -1036,8 +1036,8 @@ def run_main_view():
     # Create mains buttons
     input_new = Button(main, text="Add New Student", command=run_entry_view)
     input_new.pack(side=BOTTOM)
-    test_r = Button(main, text="test r", command=lambda: run_r(10))
-    test_r.pack(side=LEFT)
+    #test_r = Button(main, text="test r", command=lambda: run_r(10))
+    #test_r.pack(side=LEFT)
 
     # Configurations
     main.title("Predicting Student Retention Using Enrollment Data")
