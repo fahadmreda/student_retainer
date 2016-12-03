@@ -6,7 +6,7 @@ from Tkinter import *
 import tkMessageBox
 from PIL import Image,ImageTk
 import rpy2.robjects as robjects
-import random
+import rpy2.robjects.numpy2ri
 
 # Homemade files
 import Point
@@ -18,7 +18,7 @@ import Clusters_value
 ###################
 cluster_choice = 0 # 0 is for k_modes
 cluster_values = Clusters_value.Cluster_value(cluster_choice)
-
+rpy2.robjects.numpy2ri.activate()
 ###################
 # Functions
 ###################
@@ -34,10 +34,10 @@ def toggle(var):
 def run_r(value):
     r = robjects.r
     r.source("test.R")
-    fn = r['predict']
-    result = fn(value.info_vector)
+    fn = r['predict_new_point']
+    result = fn(value)
 
-    return result
+    return result[0], result[1]
 
 def output_dialog(output):
     msg = "Thank you very much for using our application! It was hard work for all of us and I hope it gave you the" \
@@ -97,19 +97,16 @@ def submit_entry(entry, entries, checks):
 
         # Find the cluster value that corresponds to this point
         new_point.cluster_name = cluster_values.find_closest(new_point)
+        new_point.set_info_vector()
 
         # classify the cluster
-        #result = run_r(new_point.info_vector)
+        result = run_r(new_point.info_vector)
 
         # Destroy window
         entry.destroy()
 
-        # send this data point to output view - TODO STUB CODE GET RID OF
-        stub = True
-        if new_point.major == 'FAIL':
-            stub = False
-
-        run_output_view(stub)
+        # run output
+        run_output_view(result)
 
 def create_tutorial_pages(tut):
     pages = Pointer_List.pointer_list()
@@ -989,18 +986,23 @@ def run_entry_view():
 def run_output_view(result):
     output = Toplevel()
 
+    if result[0] >= result[1]:
+        retained = True
+    else:
+        retained = False
+
     # main frame
     result_frame = Frame(output)
     result_frame.grid(row=1, column=0, sticky='news')
 
-    if result == True:
+    if retained == True:
         msg = ("Success! Based on our algorithms it seems like this student is bound for success at OU. \n \n"
-               "Retention is highly probable. Good luck and stay focused!")
+               "Retention is highly probable at %d percent! Good luck and stay focused!", result[0])
         title = ("Classification results: Not Retained")
-    elif result == False:
+    elif retained == False:
         msg = ("Unfortunately, the result we have obtained from our algorithm leans toward this student"
-               " leaving school after their freshman year.\n\nMaybe this student would like to try a different"
-               " combination of courses, a lighter workload, or even perhaps a new major? \n \n")
+               " leaving school after their freshman year at %d percet.\n\nMaybe this student would like to try a different"
+               " combination of courses, a lighter workload, or even perhaps a new major? \n \n", result[1])
         title = ("Classification results: Not Retained")
 
     Message(output, text=msg).pack(side=BOTTOM)
@@ -1034,8 +1036,8 @@ def run_main_view():
     # Create mains buttons
     input_new = Button(main, text="Add New Student", command=run_entry_view)
     input_new.pack(side=BOTTOM)
-    #test_r = Button(main, text="test r", command=lambda: run_r(10))
-    #test_r.pack(side=LEFT)
+    test_r = Button(main, text="test r", command=lambda: run_r(10))
+    test_r.pack(side=LEFT)
 
     # Configurations
     main.title("Predicting Student Retention Using Enrollment Data")

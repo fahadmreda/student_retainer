@@ -1,3 +1,4 @@
+import random
 
 class Cluster_value:
 
@@ -8,15 +9,19 @@ class Cluster_value:
     def find_closest(self,p):
         max = 0
         id = -1
+        dict_count = 0
 
         for key, value in self.centers.iteritems():
             tmp = self.compare(p,value)
+            dict_count += 1
 
             if tmp > max:
                 max = tmp
                 id = key
 
-        return id
+        if id == -1:
+            id = random.randint(0,dict_count-1)
+        return str(id)
 
     def compare(self,p,value):
         count = 0

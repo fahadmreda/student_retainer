@@ -29,11 +29,9 @@ class Point:
         self.ic =                   self.calculate_survey(checks['ic'], [1,2,4])
         self.grit =                 self.calculate_survey(checks['grit'], [])
 
-        self.major =                entries['major_entry'].get()
+        self.major =                str(entries['major_entry'].get())
 
-        self.info_vector = [self.act_sat_conv, self.ap_hours, self.hs_gpa, self.trig, self.alg_1, self.alg_2, self.alg_coll,
-                       self.geometry, self.pre_calc, self.stats, self.math_senior, self.fc, self.ae, self.ic, self.grit,
-                       self.major, self.cluster_name]
+        self.info_vector = None
 
     def calculate_survey(self, check, invert):
         sum = 0
@@ -51,3 +49,8 @@ class Point:
                         sum = sum + j+1
 
         return float(sum) / len(check)
+
+    def set_info_vector(self):
+        self.info_vector = [float(self.act_sat_conv), float(self.ap_hours), float(self.hs_gpa), float(self.trig), float(self.alg_1), float(self.alg_2), float(self.alg_coll),
+                            float(self.geometry), float(self.pre_calc), float(self.stats), float(self.math_senior), float(self.fc), float(self.ae), float(self.ic), float(self.grit),
+                            str(self.major), str(self.cluster_name)]
