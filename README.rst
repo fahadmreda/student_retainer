@@ -21,15 +21,15 @@ Demonstration video: https://www.youtube.com/watch?v=VxCeQhM9xIc
 Usage
 -----
 
-To run the GUI program, run ::
-    python Main.py
+To run the GUI program, run
+python Main.py ::
 from inside the GUI directory.
 
 Setup
 -----
 
-No setup needed. If you receive module errors, you may need to install those modules. An easy way is with ::
-    (sudo) pip install [module]
+No setup needed. If you receive module errors, you may need to install those modules. An easy way is with
+(sudo) pip install [module] ::
 
 References
 ----------
