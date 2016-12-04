@@ -96,10 +96,6 @@ utilities/__init__.pyc
 utilities/dissim.pyc
 .DS_Store
 
-examples/data_dict.csv
-examples/sse_plot.pdf
-examples/vrc_plot.pdf
-examples/cleaned_data_nums.txt
-student_retainer/
+/examples/data_dict.csv
 /examples/cleaned_data.csv
 /examples/cleaned_data_nodups.csv
