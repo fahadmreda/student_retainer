@@ -16,18 +16,19 @@ Goals:
 *   Predict student retention based on the identified course clusters and pre-existing risk factors.
 *   Tools that can be used by academic advisors to better aid in enrollment decisions.
 
-Demonstration video: https://www.youtube.com/watch?v=VxCeQhM9xIc
+Presentation + demonstration video: https://www.youtube.com/watch?v=VxCeQhM9xIc
+Demo only video: https://www.youtube.com/watch?v=0EEFfizu4D0
 
 Usage
 -----
 
-To run the GUI program, run python Main.py from inside the GUI directory.
+To run the GUI program, run 'python Main.py' from inside the GUI directory.
 
 Setup
 -----
 
 No setup needed. If you receive module errors, you may need to install those modules. An easy way is with
-(sudo) pip install [module]
+'(sudo) pip install [module]'
 
 References
 ----------

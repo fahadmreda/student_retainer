@@ -1,6 +1,4 @@
 # K-modes clustering for categorical data
-# Tim Burt
-# CS5593 project
 
 from collections import defaultdict
 from sklearn.base import BaseEstimator, ClusterMixin

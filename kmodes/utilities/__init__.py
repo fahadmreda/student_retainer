@@ -1,6 +1,4 @@
 # Generic utilities for clustering
-# Tim Burt
-# CS5593 project
 
 import numpy as np
 

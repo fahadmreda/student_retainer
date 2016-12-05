@@ -1,6 +1,4 @@
-# Script to generate knee plot from k-modes
-# Tim Burt
-# CS5593 project
+# Script to run k-modes code and generate plots
 
 import csv
 import os
@@ -9,18 +7,26 @@ import numpy as np
 
 import kmodes
 
-# options
+"""Options here for the script
+max_clusters - run k-modes for 1-this value for analysis
+save_dir - location of data and save location
+unk_class - string that defines an empty class in the input data file
+data_filename - input CSV data file
+clean_data_filename - OUTPUT cleaned file which removes any particular duplicate records in a single class"""
+##############################
 max_clusters = 30
-save_dir = 'examples'
+save_dir = 'data'
+data_filename = 'cleaned_data.csv'
+clean_data_filename = 'cleaned_data_nodups.csv'
+unk_class = '.'
 # initialize variables
 classes_dict = {}
 class_counter = 0
 line_counter = 0
 dup_class_counter = 0
-data_filename = 'cleaned_data.csv'
-clean_data_filename = 'cleaned_data_nodups.csv'  # written WITHOUT any duplicate records in a class
-#
-classes_dict['.'] = 0  # force that as unknown class
+classes_dict[unk_class] = 0
+##############################
+os.chdir('..')
 os.chdir(save_dir)
 file = open(data_filename)
 row_count = len(file.readlines())
@@ -32,14 +38,14 @@ with open(data_filename, 'rb') as data:
     for line in alllines:
         for i in range(len(line)):
             test_class = line[i]
-            if test_class != '.':
+            if test_class != unk_class:
                 for j in range(len(line)):
                     if i > j:  # loop over only once
                         check_class = line[j]
                         if (test_class == check_class):
                             dup_class_counter += 1
                             #print 'Found duplicate class in one record, line %d' % line_counter
-                            line[j] = '.'  # unknown class
+                            line[j] = unk_class  # unknown class
         for i in range(len(line)):
             cur_class = line[i]
             if cur_class not in classes_dict:  # add unique item to dict.
@@ -63,9 +69,7 @@ with open('data_dict.csv', 'wb') as csv_file:
     for key, value in classes_dict.items():
         writer.writerow([key, value])
 inv_classes_dict = {v: k for k, v in classes_dict.iteritems()}  # inversion of dictionary, for index lookup
-#print classes_dict
-#print classes_arr
-# Feed to k-modes, generate knee plot
+# Feed to k-modes
 num_cluster_list = range(1, max_clusters + 1)
 cost = []
 centroids = []
@@ -86,7 +90,7 @@ for i in num_cluster_list:
     labels.append(labels_temp)
     sse.append(sse_temp)
     vrc.append(vrc_temp)
-#
+# Generate plots and save pdfs
 plt.plot(num_cluster_list, cost)
 plt.xlabel('Number of clusters')
 plt.ylabel('Cost')
@@ -108,7 +112,7 @@ plt.ylabel('Normalized Calinski-Harabasz Index (VRC)')
 plt.title('VRC analysis from Python-based k-modes clustering')
 plt.savefig('vrc_plot.pdf')
 plt.close()
-#
+# prompt user for k choice based on knee plot popup
 # print centroids for k choice and export
 actual_k = raw_input("Enter your k choice from the knee plot: ")
 actual_k = int(actual_k)
@@ -133,7 +137,4 @@ with open("centroids.txt", 'w') as data:
 with open('labels.csv', 'wb') as data:
     alllines = csv.writer(data, delimiter='\n', dialect='excel')
     alllines.writerow(actual_labels)
-
-
-
-
+print('Complete')
