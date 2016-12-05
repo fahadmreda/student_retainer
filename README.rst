@@ -2,8 +2,10 @@
     :target: https://github.com/tab10/student_retainer/LICENSE
     :alt: MIT License
 
-Student Retainer
-================
+
+
+Predicting Student Retention using Enrollment Data (Student Retainer)
+=====================================================================
 Timothy Burt, Melie Lewis, Koby Pascual, Yutian Tang
 
 Description
